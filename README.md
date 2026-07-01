@@ -1,46 +1,57 @@
-# AB-Engine: A Statistical Experimentation Framework
+# AB-Engine: Product Experimentation & Guardrail Decision Framework
 
-AB-Engine is a product analytics case study that evaluates a controlled A/B experiment end to end: from deterministic assignment and metric comparison to guardrail evaluation and final rollout decision. The experiment shows a statistically significant lift in conversion, but the final recommendation is HOLD because bounce rate worsened enough to require investigation before shipping.
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)
+![pandas](https://img.shields.io/badge/pandas-analytics-150458?style=flat-square&logo=pandas&logoColor=white)
+![SciPy](https://img.shields.io/badge/SciPy-statistics-8CAAE6?style=flat-square&logo=scipy&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-visuals-11557C?style=flat-square)
+![Product%20Analytics](https://img.shields.io/badge/Product_Analytics-A%2FB_Testing-orange?style=flat-square)
+
+## Portfolio Highlights
+
+- Evaluated a 20,000-user landing page A/B test with balanced control and treatment groups.
+- Detected a statistically significant 6.92% conversion lift.
+- Identified a statistically significant bounce-rate regression that blocked rollout.
+- Generated a stakeholder-ready HOLD recommendation using primary and guardrail metrics.
 
 ## Executive Summary
 
-This experiment compared a control landing page against a treatment variant using a balanced sample of 20,000 users. The treatment produced a statistically significant increase in conversion, but the predefined guardrail metric for bounce rate deteriorated enough to block rollout.
+AB-Engine is a product experimentation case study that evaluates a controlled A/B test from assignment and metric comparison to guardrail review and rollout decision. The treatment improved conversion, but the final recommendation remained HOLD because bounce rate worsened enough to require investigation before shipping.
 
-The central takeaway is simple: a positive primary metric is not sufficient on its own when a user-experience guardrail moves in the wrong direction.
+This project demonstrates how to make product decisions under metric tradeoffs, not just how to calculate p-values.
 
-## Business Impact
+## Business Problem
 
-- Identified a 6.92% statistically significant improvement in conversion.
-- Prevented a potentially harmful rollout by detecting a statistically significant increase in bounce rate through guardrail monitoring.
-- Demonstrated a decision framework that balances business growth with user experience rather than optimizing a single KPI.
+Product teams need to decide whether a treatment is worth shipping when multiple metrics move in different directions. A variant can improve conversion while still creating friction in the user journey, and that tradeoff matters when the goal is sustainable product growth.
 
-## Business Context
+This project models that decision process in a reproducible, audit-friendly way. It shows how experiment analysis can support business decisions that balance growth, user experience, and rollout risk.
 
-Product teams often need to decide whether an experiment is ready to ship based on more than one metric. A treatment can improve conversion while still creating friction in the user journey, and that tradeoff matters when the goal is sustainable product growth.
+## Key Insights
 
-This project models that decision process in a way that is reproducible, audit-friendly, and easy to explain to stakeholders.
+- Treatment conversion increased from 14.86% to 15.88%, a 6.92% relative lift.
+- The conversion lift was statistically significant with p = 0.04391.
+- Bounce rate worsened from 32.22% to 33.78%, with p = 0.01948.
+- Revenue per visitor improved from $12.24 to $12.70.
+- Final recommendation: HOLD, because guardrail risk outweighs immediate rollout confidence.
 
-## Problem Statement
+## Business Recommendation
 
-The core question is not whether the treatment improves conversion in isolation. The real question is whether the treatment improves the business outcome enough to justify the risk of harming user experience.
+**HOLD: Guardrail risk needs investigation.**
 
-In this experiment, the treatment increased conversion, but bounce rate also increased. The framework therefore needed to evaluate both the upside and the downside before making a rollout recommendation.
+The statistically significant conversion lift is not enough to ship when a predefined user-experience guardrail worsens. The correct product decision is to pause rollout, review the bounce-rate regression, and determine whether the treatment’s conversion gain is worth the added friction.
 
-## Hypothesis
+## Visual Story
 
-The hypothesis was that the treatment variant would improve conversion relative to control without creating unacceptable degradation in guardrail metrics.
+The experiment summary is captured in a single visual report:
 
-The experiment was designed to test whether the conversion lift was strong enough to support rollout, while also checking whether user-experience or business-quality metrics remained within acceptable bounds.
+![Experiment Results](./data/simulated/experiment_results_chart.png)
 
-## Experiment Design
+This figure brings together the conversion comparison, treatment-effect confidence interval, and guardrail summary in one place. It is the fastest way to understand why the result is not a straightforward ship decision.
 
-The experiment used deterministic, stateless user assignment so the same user always maps to the same variant across reruns. That makes the experiment reproducible and avoids bucket instability.
+## Experiment Context
 
-The sample was split evenly across variants:
-- Control: 9,996 users.
-- Treatment: 10,004 users.
+The experiment compared a control landing page against a treatment variant using a balanced sample of 20,000 users. The primary question was not whether the treatment improved conversion in isolation, but whether the improvement was strong enough to justify the risk of harming user experience.
 
-The analysis compared primary performance on conversion and then evaluated guardrail metrics before reaching a final recommendation.
+The working hypothesis was that the treatment would improve conversion relative to control without creating unacceptable degradation in guardrail metrics.
 
 ## Dataset
 
@@ -78,7 +89,7 @@ flowchart TD
 
 ## Statistical Testing
 
-The primary metric used a two-sample proportion test to compare conversion rates between control and treatment. The result showed a statistically significant improvement in conversion.
+The primary metric uses a two-sample proportion test to compare conversion rates between control and treatment. The result showed a statistically significant improvement in conversion.
 
 The guardrail analysis separately evaluated bounce rate, revenue per visitor, and sample balance. The key decision point was not whether the treatment won on conversion, but whether the guardrails remained stable enough to support rollout.
 
@@ -122,29 +133,6 @@ The experiment produced a mixed but informative result:
 
 The analysis therefore supports a HOLD decision rather than an immediate ship recommendation. The treatment shows upside, but the guardrail deterioration means the experiment is not ready for rollout without further investigation.
 
-## Business Recommendation
-
-**HOLD: Guardrail risk needs investigation.**
-
-The statistically significant conversion lift is not enough to ship when a predefined user-experience guardrail worsens. The correct product decision is to pause rollout, review the bounce-rate regression, and determine whether the treatment’s conversion gain is worth the added friction.
-
-```mermaid
-flowchart TD
-    A[Conversion Lift Observed] --> B{Guardrail Stable?}
-    B -- Yes --> C[Ship]
-    B -- No --> D[Hold]
-    D --> E[Investigate Bounce Rate]
-    E --> F[Reassess Rollout]
-```
-
-## Visual Story
-
-The experiment summary is captured in a single visual report:
-
-![Experiment Results](./data/simulated/experiment_results_chart.png)
-
-This figure brings together the conversion comparison, treatment-effect confidence interval, and guardrail summary in one place. It is the fastest way to understand why the result is not a straightforward ship decision.
-
 ## Production Considerations
 
 This project is designed as a reproducible experimentation workflow, not as a deployed product system. The focus is on clear decision logic, deterministic assignment, transparent metrics, and auditable outputs.
@@ -187,13 +175,6 @@ ab_engine/
         └── stats.py
 ```
 
-## Key Learnings
-
-- Statistical significance alone is not enough to justify a rollout.
-- Guardrail metrics are essential for balancing growth and user experience.
-- Deterministic assignment makes experimentation reproducible and easier to audit.
-- A concise decision memo is often more valuable than a long technical explanation when communicating results.
-
 ## How to Run
 
 ```bash
@@ -204,11 +185,18 @@ The project also includes a notebook walkthrough and generated output files in `
 
 ## Technologies Used
 
-- Python
-- NumPy
-- pandas
-- SciPy
-- Matplotlib
-- YAML
-- Jupyter Notebook
-- Mermeid.js
+- Python.
+- NumPy.
+- pandas.
+- SciPy.
+- Matplotlib.
+- YAML.
+- Jupyter Notebook.
+- Mermaid.js.
+
+## Limitations
+
+- The project is a reproducible experimentation case study, not a deployed product system.
+- Guardrail decisions are based on the metrics defined in the project, not on broader product telemetry.
+- The experiment uses simulated user-level observations for demonstration and analysis.
+- The project does not add any infrastructure beyond what is already in the repository.
