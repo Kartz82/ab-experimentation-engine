@@ -141,7 +141,7 @@ flowchart TD
 
 The experiment summary is captured in a single visual report:
 
-![Experiment Results](data/simulated/experiment_results_chart.png)
+![Experiment Results](./data/simulated/experiment_results_chart.png)
 
 This figure brings together the conversion comparison, treatment-effect confidence interval, and guardrail summary in one place. It is the fastest way to understand why the result is not a straightforward ship decision.
 
