@@ -1,20 +1,4 @@
-# 1. Clone the (empty) repo and enter it
-# Replace 'Kartz82' with your GitHub username
-git clone https://github.com/Kartz82/ab-engine.git
-cd ab-engine
-
-# 2. Create the standard engineering file structure
-mkdir -p src/engine config notebooks tests data/simulated
-
-# 3. Initialize the core Python files (Empty for now)
-touch src/__init__.py src/engine/stats.py src/engine/randomization.py
-touch config/experiment_config.yaml
-touch notebooks/01_experiment_walkthrough.ipynb
-touch requirements.txt
-
-# 4. Create a professional .gitignore
-cat << 'EOF' > .gitignore
-# Data and local outputs
+# Generated experiment outputs
 data/
 reports/
 *.log
@@ -22,11 +6,12 @@ reports/
 # Python
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
 .env
 venv/
-.ipynb_checkpoints/
+.venv/
 
-# IDE
+# IDE / OS
 .vscode/
 .DS_Store
-EOF

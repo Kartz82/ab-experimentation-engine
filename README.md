@@ -1,5 +1,7 @@
-# AB-Engine: A Statistical Experimentation Framework
+# Instacart Intelligence Platform
+Customer Analytics · RFM Segmentation · Market Basket Analysis · Reorder Intelligence · Product Performance · Plotly Dash Dashboard
 
+<<<<<<< HEAD
 AB-Engine is a product analytics case study that evaluates a controlled A/B experiment end to end: from deterministic assignment and metric comparison to guardrail evaluation and final rollout decision. The experiment shows a statistically significant lift in conversion, but the final recommendation is HOLD because bounce rate worsened enough to require investigation before shipping.
 
 ## Executive Summary
@@ -162,10 +164,185 @@ flowchart LR
     E --> F[Decision Memo]
     F --> G[Visual Report]
 ```
+=======
+An end-to-end retail analytics platform built on 3.4M+ Instacart grocery orders that segments 206K customers, identifies product affinity relationships, analyzes reorder behavior across 21 departments, and surfaces operational KPIs through an interactive multi-page Plotly Dash dashboard.
+
+---
+
+## Executive Summary
+
+This project transforms raw grocery transaction data into a decision-ready analytics platform for customer retention, product strategy, and growth analysis.
+
+It is designed to answer questions such as:
+- Which customers are most valuable and most at risk?
+- Which products and departments drive repeat purchases?
+- What items are frequently bought together?
+- Where should marketing and operations focus?
+
+---
+
+## Business Problem
+
+Grocery and e-commerce retailers need to understand:
+- Which customers are most valuable.
+- Which customers are likely to churn.
+- Which products and departments drive loyalty.
+- Which items are often bought together.
+- How retention and reorder behavior evolve over time.
+
+Without structured analytics, retention and merchandising decisions remain reactive rather than data-driven.
+
+---
+
+## Dataset
+
+**Instacart Market Basket Analysis** — Kaggle
+
+| Metric | Value |
+|---|---:|
+| Total Orders | 3,421,083 |
+| Unique Customers | 206,209 |
+| Products | 49,688 |
+| Departments | 21 |
+| Reorder Rate | 59.0% |
+
+### Files Used
+- `orders.csv`
+- `order_products__prior.csv`
+- `order_products__train.csv`
+- `products.csv`
+- `aisles.csv`
+- `departments.csv`
+
+---
+
+## System Architecture
+
+```mermaid
+flowchart TD
+    A[Instacart CSV Files] --> B[Python ETL Pipeline]
+    B --> C[PostgreSQL 15 Warehouse]
+    C --> D[SQL Analytics Layer]
+    D --> E[RFM Segmentation Engine]
+    D --> F[Market Basket Analysis]
+    D --> G[Retention Matrix]
+    D --> H[Category Performance]
+    E --> I[Plotly Dash Dashboard]
+    F --> I
+    G --> I
+    H --> I
+```
+
+---
+
+## Solution Modules
+
+### Module 1 — RFM Customer Segmentation
+Scored 206,209 customers on Recency, Frequency, and Monetary value using SQL window functions and NTILE scoring.
+
+### Segment Summary
+| Segment | Customers |
+|---|---:|
+| Champions | 15,978 |
+| Loyal Customers | 52,655 |
+| New Customers | 24,233 |
+| At Risk | 55,092 |
+| Hibernating / Lost | 58,251 |
+
+**Key insight:** 55,092 previously active customers show declining engagement signals and are the primary target for retention campaigns.
+
+---
+
+### Module 2 — Reorder & Retention Intelligence
+Tracked customer order cohorts across 13 order milestones.
+
+- Month 0–3: 100% retention.
+- Month 6: 71% retention.
+- Month 12: 42% retention.
+- Produce department drives the highest reorder rate at 65%+, roughly 2x higher than average across all departments.
+
+---
+
+### Module 3 — Market Basket Analysis
+Applied Apriori association rule mining on 15,000 sampled orders.
+
+### Top Associations
+- Organic Strawberries → Organic Raspberries, Lift: 3.26
+- Bag of Organic Bananas → Organic Raspberries, Lift: 2.98
+- Large Lemon → Organic Baby Spinach, Lift: 2.93
+- Banana → Cucumber Kirby, Lift: 2.48
+
+**Insight:** Organic produce items show the strongest cross-purchase affinity, creating bundling opportunities for promotions.
+
+---
+
+### Module 4 — Category & Product Performance
+Top departments by purchase volume:
+- Produce — 9.9M purchases, 65% reorder rate
+- Dairy Eggs — 5.6M purchases
+- Snacks — 3.0M purchases
+
+Top products by volume:
+- Banana — 491,291 purchases
+- Bag of Organic Bananas — 394,930 purchases
+- Organic Strawberries — 264,683 purchases
+
+---
+
+## Dashboard
+
+The project includes a 4-tab interactive Plotly Dash application connected live to PostgreSQL.
+
+### Page 1 — Executive Overview
+- KPIs: Total Orders, Unique Customers, Products, Reorder Rate.
+- Charts: Order volume by hour of day, order volume by day of week.
+
+### Page 2 — Customer Analytics
+- KPIs: Champions, Loyal, At Risk, Hibernating/Lost counts.
+- Charts: RFM segment distribution, segment breakdown table.
+
+### Page 3 — Product & Category
+- Charts: Department performance and reorder rate, top 20 products by purchase volume with reorder rate heatmap.
+
+### Page 4 — Market Basket Analysis
+- Charts: Association rules scatter plot, top rules table with filter and sort.
+
+---
+
+## Dashboard Preview
+
+### Executive Overview
+![Executive Overview](reports/executive_overview.png)
+
+### Customer Analytics
+![Customer Analytics](reports/customer_analytics.png)
+
+### Product & Category
+![Product & Category](reports/product_category.png)
+
+### Market Basket Analysis
+![Market Basket Analysis](reports/market_basket.png)
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Database | PostgreSQL 15 (Docker) |
+| ETL | Python, pandas, psycopg2 |
+| Analytics | SQL, CTEs, Window Functions, NTILE |
+| ML | mlxtend, Apriori, Association Rules |
+| Dashboard | Plotly Dash, Dash Bootstrap Components |
+| Orchestration | Docker, Docker Compose |
+
+---
+>>>>>>> 356360c (#)
 
 ## Repository Structure
 
 ```text
+<<<<<<< HEAD
 ab_engine/
 ├── README.md
 ├── REPORT.md
@@ -212,3 +389,82 @@ The project also includes a notebook walkthrough and generated output files in `
 - YAML
 - Jupyter Notebook
 - Mermeid.js
+=======
+instacart-intelligence-platform/
+├── dashboard/
+│   └── app.py
+├── data/
+│   └── raw/
+├── sql/
+│   ├── schema.sql
+│   ├── rfm_analysis.sql
+│   ├── retention_matrix.sql
+│   └── category_deepdive.sql
+├── src/
+│   ├── database_loader.py
+│   ├── market_basket.py
+│   └── clv_rfm_engine.py
+├── reports/
+│   ├── executive_overview.png
+│   ├── customer_analytics.png
+│   ├── product_category.png
+│   └── market_basket.png
+├── docker-compose.yml
+└── README.md
+```
+
+---
+
+## How to Run
+
+```bash
+# 1. Clone and enter project
+git clone <repo-url>
+cd instacart-intelligence-platform
+
+# 2. Download dataset from Kaggle and place CSVs in data/raw/
+
+# 3. Start PostgreSQL
+docker compose up -d
+
+# 4. Create schema
+docker exec -i instacart_postgres psql \
+  -U postgres -d instacart_db < sql/schema.sql
+
+# 5. Load data
+python src/database_loader.py
+
+# 6. Run RFM segmentation
+docker exec -i instacart_postgres psql \
+  -U postgres -d instacart_db < sql/rfm_analysis.sql
+
+# 7. Run market basket analysis
+python src/market_basket.py
+
+# 8. Launch dashboard
+python dashboard/app.py
+# Open http://127.0.0.1:8050
+```
+
+---
+
+## Key Metrics
+
+- 3,421,083 orders analyzed.
+- 206,209 customers segmented into 5 RFM tiers.
+- 55,092 at-risk customers identified for retention targeting.
+- 59% platform reorder rate.
+- 3.26x lift on the top product association rule.
+- 42% 12-order cohort retention rate.
+
+---
+
+## What This Demonstrates
+
+- Production ETL pipeline handling 3.4M+ rows with chunked bulk loading.
+- SQL analytics using window functions, CTEs, and NTILE scoring.
+- Behavioral customer segmentation at scale.
+- Association rule mining for product affinity discovery.
+- Multi-page interactive dashboard connected to a live database.
+- Docker-based reproducible warehouse environment.
+>>>>>>> 356360c (#)

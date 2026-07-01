@@ -6,6 +6,9 @@ parameters:
   mde: 0.05
   alpha: 0.05
   power: 0.80
+  n_users: 20000
+  seed: 42
 guardrails:
-  - "latency_ms"
+  - "revenue_per_visitor"
   - "bounce_rate"
+  - "sample_size_balance"
